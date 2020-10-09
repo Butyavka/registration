@@ -9,30 +9,31 @@ class SQL_table:
         self.name = name
 
     def check_logo(self, login):
-        self.cursor.execute(f'SELECT login FROM {self.name} WHERE login = "{login}"')
-        check_result = self.cursor.fetchone()
-        if check_result is None:
-            return False
-        else:
-            return True
+        with self.connection:
+            self.cursor.execute(f'SELECT login FROM {self.name} WHERE login = "{login}"')
+            check_result = self.cursor.fetchone()
+            if check_result is None:
+                return False
+            else:
+                return True
 
     def check_password(self, login, password):
-        self.cursor.execute(f'SELECT login, password FROM {self.name} WHERE login = "{login}" AND password = "{password}"')
-        check_result = self.cursor.fetchone()
-        if check_result is None:
-            return False
-        else:
-            return True
+        with self.connection:
+            self.cursor.execute(f'SELECT login, password FROM {self.name} WHERE login = "{login}" AND password = "{password}"')
+            check_result = self.cursor.fetchone()
+            if check_result is None:
+                return False
+            else:
+                return True
 
     def registration_login(self, login, password):
-        self.cursor.execute(f'SELECT login FROM {self.name} WHERE login = "{login}"')
-        if self.cursor.fetchone() is None:
-            self.cursor.execute(f'INSERT INTO {self.name}(login, password) VALUES ("{login}", "{password}")')
-            self.connection.commit()
-            return True
-        else:
-            return False
+        with self.connection:
+            self.cursor.execute(f'SELECT login FROM {self.name} WHERE login = "{login}"')
+            if self.cursor.fetchone() is None:
+                self.cursor.execute(f'INSERT INTO {self.name}(login, password) VALUES ("{login}", "{password}")')
+                self.connection.commit()
+                return True
+            else:
+                return False
 
-    def close(self):
-        self.connection.close()
 

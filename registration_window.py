@@ -23,7 +23,7 @@ class Registration:
         Button(self.root, text="Отмена", command=self.exit, width=20).grid(row=5, column=1, sticky=E)
 
     def registration(self):
-        SQL = SQL_table(r"C:\Users\Butters\PycharmProject\MyForm\experement.db", "users_base")
+        SQL = SQL_table(r"C:\Users\Butters\PycharmProject\MyForm\data_base.db", "users_base")
         login = self.login_entry.get()
         password = self.password_entry.get()
         if SQL.check_logo(login):
